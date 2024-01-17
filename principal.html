@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +44,7 @@
 
     function modificarNumero() {
       const numero = document.getElementById('numeroInput').value;
-      const nuevoNumero = prompt('Nuevo número:');
+     const nuevoNumero = prompt('Nuevo número:');//crea una caja de dialogo,espera una respusta y la asigna a la variable
       enviarSolicitud('PUT', numero, nuevoNumero);
     }
   </script>

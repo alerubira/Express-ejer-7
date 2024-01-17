@@ -3,9 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); // Importa el middleware cors
 const app = express();
 const port = 3000;
+const soloNumeros="El valor ingresado debe ser un numero";
 app.use(cors()); // Usa el middleware cors para permitir solicitudes desde cualquier origen
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
 
 let numeros = [];
 
@@ -16,7 +19,8 @@ app.post('/numero/:num', (req, res) => {
     numeros.push(num);
     res.json(numeros);
   } else {
-    res.status(400).json({ error: true });
+    res.json(soloNumeros).status(400);
+    //res.json("el valor ingresado debe ser un numero");
   }
 });
 
@@ -27,7 +31,8 @@ app.delete('/numero/:num', (req, res) => {
     numeros = numeros.filter(n => n !== num);
     res.json(numeros);
   } else {
-    res.status(400).json({ error: true });
+    //res.status(400).json({ error: true });
+    res.json(soloNumeros).status(400);
   }
 });
 
@@ -41,13 +46,15 @@ app.put('/numero/:oldNum/:newNum', (req, res) => {
       numeros[index] = newNum;
       res.json(numeros);
     } else {
-      res.status(400).json({ error: true });
+      //res.status(400).json({ error: true });
+      res.json("El numero no se encuentra").status(400);
     }
   } else {
-    res.status(400).json({ error: true });
+    //res.status(400).json({ error: true });
+    res.json(soloNumeros).status(400);
   }
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Servidor escuchando en http://localhost:${port}`);
 });
