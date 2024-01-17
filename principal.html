@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajax Requests</title>
+</head>
+<body>
+  <form id="numeroForm">
+    <label for="numeroInput">Número:</label>
+    <input type="text" id="numeroInput" name="numero">
+    <button type="button" onclick="agregarNumero()">Agregar</button>
+    <button type="button" onclick="borrarNumero()">Borrar</button>
+    <button type="button" onclick="modificarNumero()">Modificar</button>
+  </form>
+
+  <div id="resultContainer"></div>
+
+  <script>
+    function enviarSolicitud(tipo, num, newNum) {
+      const xhr = new XMLHttpRequest();
+      xhr.open(tipo, `http://localhost:3000/numero/${num}${newNum ? '/' + newNum : ''}`, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const resultContainer = document.getElementById('resultContainer');
+          resultContainer.innerHTML = JSON.stringify(JSON.parse(xhr.responseText), null, 2);
+        }
+      };
+
+      xhr.send();
+    }
+
+    function agregarNumero() {
+      const numero = document.getElementById('numeroInput').value;
+      enviarSolicitud('POST', numero);
+    }
+
+    function borrarNumero() {
+      const numero = document.getElementById('numeroInput').value;
+      enviarSolicitud('DELETE', numero);
+    }
+
+    function modificarNumero() {
+      const numero = document.getElementById('numeroInput').value;
+      const nuevoNumero = prompt('Nuevo número:');
+      enviarSolicitud('PUT', numero, nuevoNumero);
+    }
+  </script>
+</body>
+</html>
